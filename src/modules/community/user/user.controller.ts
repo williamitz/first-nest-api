@@ -17,7 +17,7 @@ export class UserController {
   constructor(private readonly usersvc: UserService) {}
 
   @Get()
-  getUsers(): User[] {
+  getUsers(): Promise<User[]> {
     return this.usersvc.getUsers();
   }
 
@@ -28,16 +28,19 @@ export class UserController {
 
   @Post()
   addUser(@Body() body: AddUserDto) {
-    this.usersvc.addUser(body);
+    return this.usersvc.addUser(body);
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: number, @Body() body: UpdateUserDto): User {
+  updateUser(
+    @Param('id') id: number,
+    @Body() body: UpdateUserDto,
+  ): Promise<User> {
     return this.usersvc.updateUser(id, body);
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: number): User {
+  deleteUser(@Param('id') id: number): Promise<void> {
     return this.usersvc.deleteUser(id);
   }
 }

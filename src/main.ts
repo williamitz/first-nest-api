@@ -8,6 +8,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      whitelist: true, // ignorar  propiedades no eperadas en los endpoints
+      forbidNonWhitelisted: true, // devolver un status error al recibir propiedades no esperadas (opcional)
     }),
   );
 

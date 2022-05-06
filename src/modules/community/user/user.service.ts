@@ -3,9 +3,9 @@ import { Repository } from 'typeorm';
 
 import { AddUserDto } from '../dto';
 
-import { User } from './user.entity';
 import { UpdateUserDto } from '../dto/updateuser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../models';
 
 @Injectable()
 export class UserService {
@@ -22,16 +22,19 @@ export class UserService {
   ) {}
 
   async getUsers(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({ skip: 0, take: 10 });
   }
 
-  getUserById(id: number): User {
-    return this._users.find((e) => e.id == id);
+  async getUserById(id: number): Promise<User> {
+    const fuser = await this.userRepository.findOne(id);
+
+    if (!fuser) throw new NotFoundException('Usuario no encontrado');
+
+    return fuser;
   }
 
   async addUser({ name, psw }: AddUserDto): Promise<User> {
-    const id = Math.floor(Math.random() * 2000) + 1;
-    const user = this.userRepository.create({ id, name, psw });
+    const user = this.userRepository.create({ name, psw });
 
     return await this.userRepository.save(user);
   }

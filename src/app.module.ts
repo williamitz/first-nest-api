@@ -1,23 +1,28 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+// import { TypeOrmModule } from '@nestjs/typeorm';
+// import { tymeormOptions } from './environments/environment';
 
 import { CommunityModule } from './modules/community/community.module';
+import { DatabaseModule } from './modules/database/database.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'nest_curse_db',
-      autoLoadEntities: true,
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
     }),
+
+    DatabaseModule,
+    // TypeOrmModule.forRoot(tymeormOptions),
     CommunityModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  static serverPort: number;
+
+  constructor(private readonly _config: ConfigService) {
+    AppModule.serverPort = Number(this._config.get('PORT'));
+  }
+}

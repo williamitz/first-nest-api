@@ -10,9 +10,15 @@ async function bootstrap() {
       transform: true,
       whitelist: true, // ignorar  propiedades no eperadas en los endpoints
       forbidNonWhitelisted: true, // devolver un status error al recibir propiedades no esperadas (opcional)
+      transformOptions: {
+        // conversion de argumentos api
+        enableImplicitConversion: true,
+      },
     }),
   );
 
-  await app.listen(3000);
+  await app.listen(AppModule.serverPort, () => {
+    console.log('✅✅ Servidor corriendo en puerto: ', AppModule.serverPort);
+  });
 }
 bootstrap();

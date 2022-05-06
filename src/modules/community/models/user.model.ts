@@ -9,10 +9,4 @@ export class User {
 
   @Column()
   psw: string;
-
-  // constructor(id: number, name: string, psw: string) {
-  //   this.id = id;
-  //   this.name = name;
-  //   this.psw = psw;
-  // }
 }

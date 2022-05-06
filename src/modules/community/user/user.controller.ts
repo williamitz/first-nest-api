@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AddUserDto, UpdateUserDto } from '../dto';
 
-import { User } from './user.entity';
+import { User } from '../models';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -22,7 +22,7 @@ export class UserController {
   }
 
   @Get(':id')
-  getUser(@Param('id') id: number): User {
+  getUser(@Param('id') id: number): Promise<User> {
     return this.usersvc.getUserById(id);
   }
 

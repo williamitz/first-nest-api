@@ -8,6 +8,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { IsObject } from 'class-validator';
 @Entity()
 export class Tuit {
   @PrimaryGeneratedColumn('increment')
@@ -15,6 +16,7 @@ export class Tuit {
 
   @ManyToOne((type) => User, (user) => user.id, { cascade: true })
   @JoinColumn({ name: 'tuit_user' })
+  @IsObject()
   user: User;
 
   @Column({ nullable: false })

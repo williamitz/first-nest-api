@@ -25,10 +25,10 @@ export class TuitService {
   }
 
   async addTuit({ user, message }: AddTuitDto): Promise<Tuit> {
-    const userRef = await this._userorm.findOne(user);
-    if (!userRef) throw new NotFoundException('Usuario no encontrado');
+    // const userRef = await this._userorm.findOne(user);
+    // if (!userRef) throw new NotFoundException('Usuario no encontrado');
 
-    const tuit = this._tuitorm.create({ user: userRef, message });
+    const tuit = this._tuitorm.create({ user, message });
 
     return await this._tuitorm.save(tuit);
   }
